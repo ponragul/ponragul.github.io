@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ecom.shopion",
+      "sha256_cert_fingerprints": [
+        "90:D3:D7:41:8F:2C:7E:39:E8:17:67:36:38:18:54:AE:E7:23:BD:E3:D5:E5:5A:B7:92:CD:1D:9B:59:BE:BE:18"
+      ]
+    }
+  }
+]
