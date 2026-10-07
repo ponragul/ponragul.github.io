@@ -1,20 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Shopion Deep Link Demo</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        .product-card {
+            display: block;
+            width: 250px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            background: #f5f5f5;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Shopion</h1>
+    <div id="app"></div>
 
-    <h2>Deep Link Demo</h2>
+    <script>
 
-    <p>Testing Android App Links</p>
+        function renderHome() {
 
-    <a href="/product/441">
-        Open Product 441
-    </a>
+            document.getElementById("app").innerHTML = `
+                <h1>Shopion</h1>
+
+                <h2>Deep Link Demo</h2>
+
+                <p>Testing Android App Links</p>
+
+                <a href="/product/441" class="product-card" id="productLink">
+                    <h3>Product 441</h3>
+                    <p>Click to open product</p>
+                </a>
+            `;
+
+            document
+                .getElementById("productLink")
+                .addEventListener("click", function (event) {
+
+                    // Prevent normal browser navigation
+                    event.preventDefault();
+
+                    // Internal website navigation
+                    history.pushState(
+                        {},
+                        "",
+                        "/product/441"
+                    );
+
+                    renderProduct(441);
+                });
+        }
+
+
+        function renderProduct(productId) {
+
+            document.getElementById("app").innerHTML = `
+                <h1>Shopion</h1>
+
+                <h2>Product Details</h2>
+
+                <h3>Product ID: ${productId}</h3>
+
+                <p>
+                    This product page is being rendered
+                    inside the website.
+                </p>
+
+                <button onclick="goHome()">
+                    ← Back to Home
+                </button>
+            `;
+        }
+
+
+        function goHome() {
+
+            history.pushState(
+                {},
+                "",
+                "/"
+            );
+
+            renderHome();
+        }
+
+
+        // Handle browser back/forward
+        window.addEventListener("popstate", function () {
+            handleRoute();
+        });
+
+
+        function handleRoute() {
+
+            const path = window.location.pathname;
+
+            console.log("Current path:", path);
+
+            if (path.startsWith("/product/")) {
+
+                const parts = path.split("/");
+
+                const productId = parts[2];
+
+                if (productId) {
+                    renderProduct(productId);
+                    return;
+                }
+            }
+
+            renderHome();
+        }
+
+
+        // Initial page load
+        handleRoute();
+
+    </script>
 
 </body>
 </html>
